@@ -1,0 +1,73 @@
+﻿@model IEnumerable<ProductStoreApp.Models.Product>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Product List</h1>
+
+<p>
+    <a asp-action="Create">Add New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PriceBase)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Currency)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @{
+                        var base64 = Convert.ToBase64String(item.Img);
+                        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                    }
+
+                    <img src="@imgSrc" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PriceBase)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.Currency.Name)*@
+                    @item.Currency?.Name
+                </td>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.Category.Name)*@
+                    @item.Category?.Name
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

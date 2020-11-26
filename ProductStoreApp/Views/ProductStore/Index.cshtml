@@ -1,0 +1,65 @@
+﻿@model IEnumerable<ProductStoreApp.Models.ProductStore>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>@ViewBag.Store.Name - @ViewBag.Store.Address</h1>
+
+<p>
+    <a asp-action="Create" asp-route-id="@ViewBag.Store.Id">Add new products to storage</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Store)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Product.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Store.Address)
+                </td>
+                <td>                    
+                    <a asp-controller="ProductStore" asp-action="Edit" asp-route-StoreId="@item.StoreId" asp-route-ProductId="@item.ProductId">Edit</a> |
+                    <a asp-controller="ProductStore" asp-action="Delete" asp-route-StoreId="@item.StoreId" asp-route-ProductId="@item.ProductId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <h6>Total money amount in different currency</h6>
+
+    <form asp-controller="ProductStore" asp-action="Count" asp-route-id="@ViewBag.Store.Id"
+          data-ajax="true" data-ajax-method="POST" data-ajax-update="#result">
+        <select asp-items="ViewBag.CurrencyId" name="CurrencyId" class="form-control w-50"></select>
+        <input type="submit" class="btn btn-primary m-2" value="Count" />
+    </form>
+
+    <p>
+        Total amount =
+        <span class="border border-info" id="result"> ??</span>
+    </p>
+</div>
+
+<p>
+    <a asp-controller="Store" asp-action="Index">Back to Stores</a>
+</p>
